@@ -1,40 +1,43 @@
 @extends('layouts.app')
 
+@section('title', isset($role) ? 'Edit Role' : 'New Role')
+
 @push('styles')
-<style>
-  /* Header gradient */
-  .bg-gradient-primary {
-    background: linear-gradient(45deg, #0d6efd, #6610f2) !important;
-  }
+  <style>
+    /* Header gradient */
+    .bg-gradient-primary {
+      background: linear-gradient(45deg, #0d6efd, #6610f2) !important;
+    }
 
-  /* Form card */
-  .card-form {
-    border: none;
-  }
+    /* Form card */
+    .card-form {
+      border: none;
+    }
 
-  /* Floating labels focus */
-  .form-floating .form-control:focus {
-    box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
-  }
+    /* Floating labels focus */
+    .form-floating .form-control:focus {
+      box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+    }
 
-  /* Permission cards */
-  .perm-card {
-    border: 1px solid #e9ecef;
-    transition: border-color .2s;
-  }
-  .perm-card:hover {
-    border-color: #6610f2;
-  }
+    /* Permission cards */
+    .perm-card {
+      border: 1px solid #e9ecef;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .perm-card:hover {
+      border-color: #6610f2;
+      box-shadow: 0 4px 12px rgba(102,16,242,0.15);
+    }
 
-  /* Save button */
-  .btn-success {
-    background-color: #198754;
-    border: none;
-  }
-  .btn-success:hover {
-    background-color: #157347;
-  }
-</style>
+    /* Save button */
+    .btn-success {
+      background-color: #198754;
+      border: none;
+    }
+    .btn-success:hover {
+      background-color: #157347;
+    }
+  </style>
 @endpush
 
 @section('content')
@@ -45,25 +48,30 @@
         <i class="bi bi-shield-lock-fill me-2"></i>
         {{ isset($role) ? 'Edit Role' : 'New Role' }}
       </h4>
+      <a href="{{ route('admin.roles.index') }}"
+         class="btn btn-light-primary btn-sm ms-auto d-flex align-items-center">
+        <i class="bi bi-arrow-left me-1"></i>
+        Back to Roles
+      </a>
     </div>
+
     <div class="card-body p-4">
       @if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <ul class="mb-0">
-            @foreach($errors->all() as $e)
-              <li>{{ $e }}</li>
-            @endforeach
-          </ul>
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+          <div>
+            <ul class="mb-0">
+              @foreach($errors->all() as $e)
+                <li>{{ $e }}</li>
+              @endforeach
+            </ul>
+          </div>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
       @endif
 
-      <form
-        method="POST"
-        action="{{ isset($role)
-                   ? route('admin.roles.update', $role)
-                   : route('admin.roles.store') }}"
-      >
+      <form method="POST"
+            action="{{ isset($role) ? route('admin.roles.update', $role) : route('admin.roles.store') }}">
         @csrf
         @if(isset($role)) @method('PUT') @endif
 
@@ -73,7 +81,6 @@
             id="name"
             name="name"
             class="form-control"
-            placeholder="Role Name"
             value="{{ old('name', $role->name ?? '') }}"
             required
           >
@@ -84,7 +91,7 @@
         </div>
 
         <div class="mb-4">
-          <label class="form-label fw-semibold">
+          <label class="form-label fw-semibold d-block mb-3">
             <i class="bi bi-lock-fill me-1"></i>
             Permissions
           </label>
@@ -120,14 +127,12 @@
         </div>
 
         <div class="d-flex justify-content-end">
-          <button type="submit" class="btn btn-success me-2">
+          <button type="submit" class="btn btn-success me-2 d-flex align-items-center">
             <i class="bi bi-save-fill me-1"></i>
             {{ isset($role) ? 'Update Role' : 'Create Role' }}
           </button>
-          <a
-            href="{{ route('admin.roles.index') }}"
-            class="btn btn-outline-secondary d-flex align-items-center"
-          >
+          <a href="{{ route('admin.roles.index') }}"
+             class="btn btn-outline-secondary d-flex align-items-center">
             <i class="bi bi-x-circle-fill me-1"></i>
             Cancel
           </a>

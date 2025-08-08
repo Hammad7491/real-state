@@ -1,191 +1,179 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
+{{-- resources/views/auth/login.blade.php --}}
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log In | Silva - Responsive Admin Dashboard Template</title>
-    <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}" sizes="16x16" />
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- remix icon font css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}" />
-    <!-- BootStrap css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/bootstrap.min.css') }}" />
-    <!-- Apex Chart css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/apexcharts.css') }}" />
-    <!-- Data Table css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/dataTables.min.css') }}" />
-    <!-- Text Editor css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/editor-katex.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/editor.atom-one-dark.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/editor.quill.snow.css') }}" />
-    <!-- Date picker css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/flatpickr.min.css') }}" />
-    <!-- Calendar css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/full-calendar.css') }}" />
-    <!-- Vector Map css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/jquery-jvectormap-2.0.5.css') }}" />
-    <!-- Popup css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/magnific-popup.css') }}" />
-    <!-- Slick Slider css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/slick.css') }}" />
-    <!-- prism css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/prism.css') }}" />
-    <!-- file upload css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/file-upload.css') }}" />
-    <!-- audioplayer css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/lib/audioplayer.css') }}" />
-    <!-- main css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+	<!--favicon-->
+	<link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png" />
+
+	<!--plugins-->
+	<link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
+	<!-- loader-->
+	<link href="{{ asset('assets/css/pace.min.css') }}" rel="stylesheet" />
+	<script src="{{ asset('assets/js/pace.min.js') }}"></script>
+	<!-- Bootstrap CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+	<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
+	<title>Dashtrans - Bootstrap5 Admin Template</title>
 </head>
-<body>
-<section class="auth bg-base d-flex flex-wrap">
-    <div class="auth-left d-lg-block d-none">
-        <div class="d-flex align-items-center flex-column h-100 justify-content-center">
-            <img src="{{ asset('assets/images/auth/auth-img.png') }}" alt="">
-        </div>
-    </div>
 
-    <div class="auth-right py-32 px-24 d-flex flex-column justify-content-center">
-        <div class="max-w-464-px mx-auto w-100">
-            <div class="text-center mb-40">
-                <a href="{{ url('/') }}" class="max-w-290-px d-inline-block">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
-                </a>
+<body class="bg-theme bg-theme2">
+    <div class="wrapper">
+        <div class="section-authentication-cover">
+            <div class="row g-0">
+                <!-- left image pane -->
+                <div class="col-xl-7 d-none d-xl-flex">
+                    <!-- ... -->
+                </div>
+                <!-- right login pane -->
+                <div class="col-xl-5 bg-light">
+                    <div class="card m-3 bg-transparent">
+                        <div class="card-body p-sm-5">
+                            <div class="text-center mb-4">
+                                <img src="{{ asset('assets/images/logo-icon.png') }}" width="60" alt="">
+                                <h5 class="mt-3">Dashtrans Admin</h5>
+                                <p>Please log in to your account</p>
+                            </div>
+
+                            @if($errors->any())
+                              <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                  @foreach($errors->all() as $e)
+                                    <li>{{ $e }}</li>
+                                  @endforeach
+                                </ul>
+                              </div>
+                            @endif
+
+                            <form method="POST" action="{{ route('login') }}" class="row g-3" id="loginForm">
+                              @csrf
+
+                              <div class="col-12">
+                                <label class="form-label">Email</label>
+                                <input
+                                  type="email"
+                                  name="email"
+                                  class="form-control @error('email') is-invalid @enderror"
+                                  placeholder="jhon@example.com"
+                                  value="{{ old('email') }}"
+                                  required
+                                >
+                                @error('email')
+                                  <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                              </div>
+
+                              <div class="col-12">
+                                <label class="form-label">Password</label>
+                                <div class="input-group" id="show_hide_password">
+                                  <input
+                                    type="password"
+                                    name="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    placeholder="Enter Password"
+                                    required
+                                  >
+                                  <a href="javascript:;" class="input-group-text bg-transparent">
+                                    <i class="bx bx-hide"></i>
+                                  </a>
+                                  @error('password')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                  @enderror
+                                </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="remember"
+                                    {{ old('remember') ? 'checked' : '' }}
+                                  >
+                                  <label class="form-check-label">Remember Me</label>
+                                </div>
+                              </div>
+
+                              <div class="col-md-6 text-end">
+                                <a href="#">Forgot Password?</a>
+                              </div>
+
+                              <div class="col-12">
+                                <div class="d-grid mb-2">
+                                  <button type="submit" class="btn btn-light">Sign in</button>
+                                </div>
+                                <div class="d-grid">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    onclick="fillLogin('a@a','a')"
+                                  >
+                                    Quick Admin Login
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div class="col-12 text-center">
+                                <p class="mb-0">
+                                  Don't have an account?
+                                  <a href="{{ route('registerform') }}">Sign up here</a>
+                                </p>
+                              </div>
+                            </form>
+
+                            <div class="login-separater text-center mb-5">
+                              <span>OR SIGN IN WITH</span>
+                              <hr>
+                            </div>
+                            <div class="text-center">
+                              <a href="{{ route('facebook.login') }}" class="btn btn-light me-2">
+                                <i class="bx bxl-facebook"></i>
+                              </a>
+                              <a href="{{ route('google.login') }}" class="btn btn-light">
+                                <i class="bx bxl-google"></i>
+                              </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            <h4 class="mb-12">Welcome back</h4>
-            <p class="mb-32 text-secondary-light text-lg">Sign in to continue to Silva.</p>
-
-            <form id="loginForm" action="{{ route('login') }}" method="POST">
-                @csrf
-
-                <div class="row mb-32">
-                    <div class="col-6">
-                        <a href="{{ route('google.login') }}" class="btn text-primary-600 border d-flex align-items-center justify-content-center w-100 gap-2">
-                            <iconify-icon icon="logos:google-icon" class="text-xl"></iconify-icon>
-                            Google
-                        </a>
-                    </div>
-                    <div class="col-6">
-                        <a href="{{ route('facebook.login') }}" class="btn text-primary-600 border d-flex align-items-center justify-content-center w-100 gap-2">
-                            <iconify-icon icon="ic:baseline-facebook" class="text-xl"></iconify-icon>
-                            Facebook
-                        </a>
-                    </div>
-                </div>
-
-                <div class="center-border-horizontal text-center mb-32">
-                    <span class="bg-base z-1 px-4">or continue with email</span>
-                </div>
-
-                <div class="icon-field mb-16">
-                    <span class="icon top-50 translate-middle-y">
-                        <iconify-icon icon="mage:email"></iconify-icon>
-                    </span>
-                    <input type="email"
-                           name="email"
-                           id="emailaddress"
-                           class="form-control h-56-px bg-neutral-50 radius-12"
-                           placeholder="Email address"
-                           required
-                           value="{{ old('email') }}">
-                </div>
-
-                <div class="position-relative mb-20">
-                    <div class="icon-field">
-                        <span class="icon top-50 translate-middle-y">
-                            <iconify-icon icon="solar:lock-password-outline"></iconify-icon>
-                        </span>
-                        <input type="password"
-                               name="password"
-                               id="password"
-                               class="form-control h-56-px bg-neutral-50 radius-12"
-                               placeholder="Password"
-                               required>
-                        <button type="button"
-                                id="togglePassword"
-                                class="toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light"
-                                data-toggle="#password"></button>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between mb-32">
-                    <div class="form-check style-check d-flex align-items-center">
-                        <input class="form-check-input border border-neutral-300" type="checkbox" id="remember">
-                        <label class="form-check-label ms-2" for="remember">Remember me</label>
-                    </div>
-                    <a href="javascript:void(0)" class="text-primary-600 fw-medium">Forgot Password?</a>
-                </div>
-
-                <button type="submit" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mb-32">
-                    Log In
-                </button>
-
-                <div class="d-flex flex-wrap gap-2 mb-32">
-                    <button type="button" class="btn btn-secondary" onclick="fillLogin('a@a','a')">Admin</button>
-                    {{-- <button type="button" class="btn btn-secondary" onclick="fillLogin('u@u','a')">User</button> --}}
-                </div>
-
-                <p class="text-center text-sm mb-0">
-                    Don’t have an account?
-                    <a href="{{ route('registerform') }}" class="text-primary-600 fw-semibold">Sign Up</a>
-                </p>
-            </form>
         </div>
     </div>
-</section>
 
-<!-- jQuery -->
-<script src="{{ asset('assets/js/lib/jquery-3.7.1.min.js') }}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset('assets/js/lib/bootstrap.bundle.min.js') }}"></script>
-<!-- Apex Charts -->
-<script src="{{ asset('assets/js/lib/apexcharts.min.js') }}"></script>
-<!-- DataTables -->
-<script src="{{ asset('assets/js/lib/dataTables.min.js') }}"></script>
-<!-- Iconify -->
-<script src="{{ asset('assets/js/lib/iconify-icon.min.js') }}"></script>
-<!-- jQuery UI -->
-<script src="{{ asset('assets/js/lib/jquery-ui.min.js') }}"></script>
-<!-- Vector Map -->
-<script src="{{ asset('assets/js/lib/jquery-jvectormap-2.0.5.min.js') }}"></script>
-<script src="{{ asset('assets/js/lib/jquery-jvectormap-world-mill-en.js') }}"></script>
-<!-- Popup -->
-<script src="{{ asset('assets/js/lib/magnific-popup.min.js') }}"></script>
-<!-- Slick Slider -->
-<script src="{{ asset('assets/js/lib/slick.min.js') }}"></script>
-<!-- Prism -->
-<script src="{{ asset('assets/js/lib/prism.js') }}"></script>
-<!-- File Upload -->
-<script src="{{ asset('assets/js/lib/file-upload.js') }}"></script>
-<!-- Audioplayer -->
-<script src="{{ asset('assets/js/lib/audioplayer.js') }}"></script>
-<!-- Main JS -->
-<script src="{{ asset('assets/js/app.js') }}"></script>
+    {{-- scripts --}}
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script>
+      // toggle password visibility
+      $('#show_hide_password a').on('click', function(e) {
+        e.preventDefault();
+        let input = $('#show_hide_password input'),
+            icon  = $('#show_hide_password i');
+        if (input.attr('type') === 'password') {
+          input.attr('type','text');
+          icon.removeClass('bx-hide').addClass('bx-show');
+        } else {
+          input.attr('type','password');
+          icon.addClass('bx-hide').removeClass('bx-show');
+        }
+      });
 
-<script>
-    function fillLogin(email, password) {
-        document.getElementById('emailaddress').value = email;
-        document.getElementById('password').value = password;
+      // quick-fill & submit
+      function fillLogin(email, pass) {
+        document.querySelector('input[name="email"]').value    = email;
+        document.querySelector('input[name="password"]').value = pass;
         document.getElementById('loginForm').submit();
-    }
-
-    document.getElementById('togglePassword').addEventListener('click', function() {
-        this.classList.toggle('ri-eye-off-line');
-        let input = document.querySelector(this.getAttribute('data-toggle'));
-        input.type = input.type === 'password' ? 'text' : 'password';
-    });
-</script>
+      }
+    </script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
 </body>
 </html>

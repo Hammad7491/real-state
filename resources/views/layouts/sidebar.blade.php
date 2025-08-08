@@ -1,81 +1,158 @@
-<aside class="sidebar">
-    <button type="button" class="sidebar-close-btn">
-        <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
-    </button>
+<div class="sidebar-wrapper" data-simplebar="true">
+  <div class="sidebar-header">
     <div>
-        <a href="index.html" class="sidebar-logo">
-            <img src="assets/images/logo.png" alt="site logo" class="light-logo">
-            <img src="assets/images/logo-light.png" alt="site logo" class="dark-logo">
-            <img src="assets/images/logo-icon.png" alt="site logo" class="logo-icon">
-        </a>
+      <img src="{{ asset('assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
     </div>
-    <div class="sidebar-menu-area">
-        <ul class="sidebar-menu" id="sidebar-menu">
-            <li class="dropdown">
-                <a href="javascript:void(0)">
-                    <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
-                    <span>Dashboard</span>
-                </a>
-                <ul class="sidebar-submenu">
-                    <li>
-                        <a href="index.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> AI</a>
-                    </li>
+    <div>
+      <h4 class="logo-text">Dashtrans</h4>
+    </div>
+    <div class="toggle-icon ms-auto">
+      <i class='bx bx-arrow-back'></i>
+    </div>
+  </div>
+  <!--navigation-->
+  <ul class="metismenu" id="menu">
+    <li>
+      <a href="{{ route('admin.dashboard') }}">
+        <div class="parent-icon">
+          <i class='bx bx-bar-chart-alt-2'></i>
+        </div>
+        <div class="menu-title">Dashboard</div>
+      </a>
+    </li>
+
+    <li class="menu-label">Users</li>
+    <li>
+      <a href="javascript:;" class="has-arrow">
+        <div class="parent-icon">
+          <i class='bx bx-user'></i>
+        </div>
+        <div class="menu-title">User Management</div>
+      </a>
+      <ul>
+        <li>
+          <a href="{{ route('admin.users.create') }}">
+            <i class='bx bx-user-plus'></i>
+            Add User
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.users.index') }}">
+            <i class='bx bx-user'></i>
+            Users List
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.roles.index') }}">
+            <i class='bx bx-shield-quarter'></i>
+            Roles &amp; Permissions
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.permissions.index') }}">
+            <i class='bx bx-lock-open-alt'></i>
+            Permissions
+          </a>
+        </li>
+      </ul>
+    </li>
 
 
-                </ul>
-            </li>
 
-
-
-
-            <li class="sidebar-menu-group-title">Users</li>
-
-
-
-            <li class="dropdown">
-                <a href="javascript:void(0)">
-                    <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
-                    <span>User Management</span>
-                </a>
-                <ul class="sidebar-submenu">
-                    <li>
-                        <a href="{{ route('admin.users.create') }}">
-                            <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Add Users
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.users.index') }}">
-                            <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.roles.index') }}">
-                            <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Roles & Permissions
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.permissions.index') }}">
-                            <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Permissions
-                        </a>
-                    </li>
-                </ul>
-
-            </li>
-
-
-
+    
+    <li class="menu-label">Users</li>
+    <li>
+      <a href="javascript:;" class="has-arrow">
+        <div class="parent-icon">
+          <i class='bx bx-user'></i>
+        </div>
+        <div class="menu-title">Buyer Management</div>
+      </a>
+      <ul>
   
+        <li>
+          <a href="{{ route('admin.buyers.create') }}">
+            <i class='bx bx-lock-open-alt'></i>
+            Create Buyer
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.buyers.index') }}">
+            <i class='bx bx-lock-open-alt'></i>
+             Buyer List
+          </a>
+        </li>
+      </ul>
+    </li>
 
-            <li>
-                <a href="email.html">
-                    <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
-                    <span>Email</span>
-                </a>
-            </li>
+
+ 
+    <li class="menu-label">Matching</li>
+    <li>
+      <a href="javascript:;" class="has-arrow">
+        <div class="parent-icon">
+          <i class='bx bx-user'></i>
+        </div>
+        <div class="menu-title">Matching Management</div>
+      </a>
+      <ul>
+  
+        <li>
+          <a href="{{ route('admin.matching.pending') }}">
+            <i class='bx bx-lock-open-alt'></i>
+           Pending Matching
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.buyers.index') }}">
+            <i class='bx bx-lock-open-alt'></i>
+            Accepted Matching
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.buyers.index') }}">
+            <i class='bx bx-lock-open-alt'></i>
+            Rejected Matching
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+ 
 
 
 
 
-        </ul>
-    </div>
-</aside>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </ul>
+</div>

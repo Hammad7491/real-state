@@ -9,10 +9,17 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // 1️⃣ create roles & permissions first
-        $this->call(\Database\Seeders\RolesAndPermissionsSeeder::class);
+          $this->call([
 
-        // 2️⃣ then create users and assign those roles
-        $this->call(\Database\Seeders\UserSeeder::class);
+        RolesAndPermissionsSeeder::class,
+        UserSeeder::class,
+        BuyerSeeder::class,
+        SellerSeeder::class,
+    ]);
     }
+
+
+
+
+  
 }

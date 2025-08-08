@@ -5,50 +5,50 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     public function run()
     {
+        // Ensure roles exist
+        $roles = ['Admin', 'Cashier', 'User'];
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate([
+                'name' => $roleName,
+                'guard_name' => 'web'
+            ]);
+        }
+
         // — Admin User —
         $admin = User::updateOrCreate(
-            ['name' => 'Admin User'],
+            ['email' => 'a@a'],
             [
-                'email'    => 'a@a',
+                'name'     => 'Admin User',
                 'password' => Hash::make('a'),
             ]
         );
-        $admin->syncRoles('Admin');
+        $admin->assignRole('Admin');
 
-        // — Site Manager User —
-        $manager = User::updateOrCreate(
-            ['name' => 'Site Manager User'],
+        // — Cashier User —
+        $cashier = User::updateOrCreate(
+            ['email' => 'cashier@example.com'],
             [
-                'email'    => 'manager@example.com',
+                'name'     => 'Cashier User',
                 'password' => Hash::make('password'),
             ]
         );
-        $manager->syncRoles('Site Manager');
+        $cashier->assignRole('Cashier');
 
-        // — Collaborator User —
-        $collaborator = User::updateOrCreate(
-            ['name' => 'Collaborator User'],
+        // — Regular User —
+        $user = User::updateOrCreate(
+            ['email' => 'user@example.com'],
             [
-                'email'    => 'collaborator@example.com',
+                'name'     => 'Regular User',
                 'password' => Hash::make('password'),
             ]
         );
-        $collaborator->syncRoles('Collaborator');
-
-        // — Client User —
-        $client = User::updateOrCreate(
-            ['name' => 'Client User'],
-            [
-                'email'    => 'client@example.com',
-                'password' => Hash::make('password'),
-            ]
-        );
-        $client->syncRoles('Client');
+        $user->assignRole('User');
     }
 }
