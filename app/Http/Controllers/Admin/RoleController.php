@@ -18,7 +18,11 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::all();
-        return view('admin.roles.create', compact('permissions'));
+        return view('admin.roles.create', [
+        'permissions'      => Permission::orderBy('name')->get(),
+        'rolePermissions'  => [], // none for create
+        'guards'           => Permission::select('guard_name')->distinct()->pluck('guard_name'),
+    ]);
     }
 
     public function store(Request $request)

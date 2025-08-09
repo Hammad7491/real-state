@@ -1,3 +1,10 @@
-<footer class="page-footer text-center py-2">
-    <p class="mb-0">&copy; {{ now()->year }} All right reserved.</p>
+<footer class="d-footer">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+      <p class="mb-0">© {{ now()->year }} WowDash. All Rights Reserved.</p>
+    </div>
+    <div class="col-auto">
+      <p class="mb-0">Made by <span class="text-primary-600">wowtheme7</span></p>
+    </div>
+  </div>
 </footer>

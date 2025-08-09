@@ -1,179 +1,202 @@
 {{-- resources/views/auth/login.blade.php --}}
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign In</title>
 
-<head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}" />
 
-	<!--favicon-->
-	<link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png" />
+    <!-- Remix Icon / Iconify / Bootstrap & Wowdash libs -->
+    <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/apexcharts.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/dataTables.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/editor-katex.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/editor.atom-one-dark.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/editor.quill.snow.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/flatpickr.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/full-calendar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/jquery-jvectormap-2.0.5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/magnific-popup.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/slick.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/prism.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/file-upload.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lib/audioplayer.css') }}" />
+    <!-- Wowdash main stylesheet -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
 
-	<!--plugins-->
-	<link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
-	<link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
-	<link href="{{ asset('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
-	<!-- loader-->
-	<link href="{{ asset('assets/css/pace.min.css') }}" rel="stylesheet" />
-	<script src="{{ asset('assets/js/pace.min.js') }}"></script>
-	<!-- Bootstrap CSS -->
-	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-	<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
-	<title>Dashtrans - Bootstrap5 Admin Template</title>
-</head>
+    <style>
+      /* Small tweaks for Laravel validation + focus rings */
+      .is-invalid{border-color:#dc3545!important}
+      .invalid-feedback{display:block}
+      .auth-right{min-height:100vh}
+      .auth-left{background:linear-gradient(180deg,#f6f7ff, #eef2ff)}
+    </style>
+  </head>
+  <body>
 
-<body class="bg-theme bg-theme2">
-    <div class="wrapper">
-        <div class="section-authentication-cover">
-            <div class="row g-0">
-                <!-- left image pane -->
-                <div class="col-xl-7 d-none d-xl-flex">
-                    <!-- ... -->
-                </div>
-                <!-- right login pane -->
-                <div class="col-xl-5 bg-light">
-                    <div class="card m-3 bg-transparent">
-                        <div class="card-body p-sm-5">
-                            <div class="text-center mb-4">
-                                <img src="{{ asset('assets/images/logo-icon.png') }}" width="60" alt="">
-                                <h5 class="mt-3">Dashtrans Admin</h5>
-                                <p>Please log in to your account</p>
-                            </div>
-
-                            @if($errors->any())
-                              <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                  @foreach($errors->all() as $e)
-                                    <li>{{ $e }}</li>
-                                  @endforeach
-                                </ul>
-                              </div>
-                            @endif
-
-                            <form method="POST" action="{{ route('login') }}" class="row g-3" id="loginForm">
-                              @csrf
-
-                              <div class="col-12">
-                                <label class="form-label">Email</label>
-                                <input
-                                  type="email"
-                                  name="email"
-                                  class="form-control @error('email') is-invalid @enderror"
-                                  placeholder="jhon@example.com"
-                                  value="{{ old('email') }}"
-                                  required
-                                >
-                                @error('email')
-                                  <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                              </div>
-
-                              <div class="col-12">
-                                <label class="form-label">Password</label>
-                                <div class="input-group" id="show_hide_password">
-                                  <input
-                                    type="password"
-                                    name="password"
-                                    class="form-control @error('password') is-invalid @enderror"
-                                    placeholder="Enter Password"
-                                    required
-                                  >
-                                  <a href="javascript:;" class="input-group-text bg-transparent">
-                                    <i class="bx bx-hide"></i>
-                                  </a>
-                                  @error('password')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                  @enderror
-                                </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                <div class="form-check form-switch">
-                                  <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    name="remember"
-                                    {{ old('remember') ? 'checked' : '' }}
-                                  >
-                                  <label class="form-check-label">Remember Me</label>
-                                </div>
-                              </div>
-
-                              <div class="col-md-6 text-end">
-                                <a href="#">Forgot Password?</a>
-                              </div>
-
-                              <div class="col-12">
-                                <div class="d-grid mb-2">
-                                  <button type="submit" class="btn btn-light">Sign in</button>
-                                </div>
-                                <div class="d-grid">
-                                  <button
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    onclick="fillLogin('a@a','a')"
-                                  >
-                                    Quick Admin Login
-                                  </button>
-                                </div>
-                              </div>
-
-                              <div class="col-12 text-center">
-                                <p class="mb-0">
-                                  Don't have an account?
-                                  <a href="{{ route('registerform') }}">Sign up here</a>
-                                </p>
-                              </div>
-                            </form>
-
-                            <div class="login-separater text-center mb-5">
-                              <span>OR SIGN IN WITH</span>
-                              <hr>
-                            </div>
-                            <div class="text-center">
-                              <a href="{{ route('facebook.login') }}" class="btn btn-light me-2">
-                                <i class="bx bxl-facebook"></i>
-                              </a>
-                              <a href="{{ route('google.login') }}" class="btn btn-light">
-                                <i class="bx bxl-google"></i>
-                              </a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="auth bg-base d-flex flex-wrap">
+      <!-- Left visual -->
+      <div class="auth-left d-lg-block d-none">
+        <div class="d-flex align-items-center flex-column h-100 justify-content-center">
+          <img src="{{ asset('assets/images/auth/auth-img.png') }}" alt="Auth illustration">
         </div>
-    </div>
+      </div>
 
-    {{-- scripts --}}
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+      <!-- Right form -->
+      <div class="auth-right py-32 px-24 d-flex flex-column justify-content-center">
+        <div class="max-w-464-px mx-auto w-100">
+          <div class="mb-4">
+            <a href="{{ url('/') }}" class="mb-40 max-w-290-px d-inline-block">
+              <img src="{{ asset('assets/images/logo.png') }}" alt="Logo">
+            </a>
+            <h4 class="mb-12">Sign in to your account</h4>
+            <p class="mb-0 text-secondary-light text-lg">Welcome back! Please enter your details.</p>
+          </div>
+
+          <!-- Laravel errors -->
+          @if($errors->any())
+            <div class="alert alert-danger mt-3">
+              <ul class="mb-0">
+                @foreach($errors->all() as $e)
+                  <li>{{ $e }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
+
+          <form method="POST" action="{{ route('login') }}" id="loginForm" class="mt-32">
+            @csrf
+
+            <div class="icon-field mb-16">
+              <span class="icon top-50 translate-middle-y">
+                <iconify-icon icon="mage:email"></iconify-icon>
+              </span>
+              <input
+                type="email"
+                name="email"
+                class="form-control h-56-px bg-neutral-50 radius-12 @error('email') is-invalid @enderror"
+                placeholder="Email"
+                value="{{ old('email') }}"
+                required
+                autocomplete="email"
+              >
+              @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="position-relative mb-20">
+              <div class="icon-field">
+                <span class="icon top-50 translate-middle-y">
+                  <iconify-icon icon="solar:lock-password-outline"></iconify-icon>
+                </span>
+                <input
+                  type="password"
+                  name="password"
+                  id="your-password"
+                  class="form-control h-56-px bg-neutral-50 radius-12 @error('password') is-invalid @enderror"
+                  placeholder="Password"
+                  required
+                  autocomplete="current-password"
+                >
+              </div>
+              <span
+                class="toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light"
+                data-toggle="#your-password"
+                aria-label="Toggle password visibility"
+                role="button"
+              ></span>
+              @error('password') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="d-flex justify-content-between gap-2 mb-8">
+              <div class="form-check style-check d-flex align-items-center">
+                <input
+                  class="form-check-input border border-neutral-300"
+                  type="checkbox"
+                  id="remember"
+                  name="remember"
+                  {{ old('remember') ? 'checked' : '' }}
+                >
+                <label class="form-check-label" for="remember">Remember me</label>
+              </div>
+              <a href="#" class="text-primary-600 fw-medium">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-16">
+              Sign In
+            </button>
+
+            <!-- Quick admin helper (kept from old) -->
+            <button
+              type="button"
+              class="btn btn-outline-secondary w-100 radius-12 mt-12"
+              onclick="fillLogin('a@a','a')"
+            >
+              Quick Admin Login
+            </button>
+
+            <div class="mt-32 center-border-horizontal text-center">
+              <span class="bg-base z-1 px-4">Or sign in with</span>
+            </div>
+
+            <div class="mt-24 d-flex align-items-center gap-3">
+              <a href="{{ route('facebook.login') }}" class="fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50">
+                <iconify-icon icon="ic:baseline-facebook" class="text-primary-600 text-xl line-height-1"></iconify-icon>
+                Facebook
+              </a>
+              <a href="{{ route('google.login') }}" class="fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50">
+                <iconify-icon icon="logos:google-icon" class="text-primary-600 text-xl line-height-1"></iconify-icon>
+                Google
+              </a>
+            </div>
+
+            <div class="mt-32 text-center text-sm">
+              <p class="mb-0">
+                Don’t have an account?
+                <a href="{{ route('registerform') }}" class="text-primary-600 fw-semibold">Sign Up</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scripts (via asset) -->
+    <script src="{{ asset('assets/js/lib/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/iconify-icon.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/jquery-jvectormap-2.0.5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/magnifc-popup.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/slick.min.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/prism.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/file-upload.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/audioplayer.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+
     <script>
-      // toggle password visibility
-      $('#show_hide_password a').on('click', function(e) {
-        e.preventDefault();
-        let input = $('#show_hide_password input'),
-            icon  = $('#show_hide_password i');
-        if (input.attr('type') === 'password') {
-          input.attr('type','text');
-          icon.removeClass('bx-hide').addClass('bx-show');
-        } else {
-          input.attr('type','password');
-          icon.addClass('bx-hide').removeClass('bx-show');
-        }
-      });
+      // Password Show/Hide (keeps your new UI pattern)
+      function initializePasswordToggle(toggleSelector) {
+        $(toggleSelector).on('click', function() {
+          $(this).toggleClass('ri-eye-off-line');
+          const input = $($(this).attr('data-toggle'));
+          input.attr('type', input.attr('type') === 'password' ? 'text' : 'password');
+        });
+      }
+      initializePasswordToggle('.toggle-password');
 
-      // quick-fill & submit
+      // Quick-fill & submit (kept from old)
       function fillLogin(email, pass) {
-        document.querySelector('input[name="email"]').value    = email;
+        document.querySelector('input[name="email"]').value = email;
         document.querySelector('input[name="password"]').value = pass;
         document.getElementById('loginForm').submit();
       }
+      window.fillLogin = fillLogin;
     </script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-</body>
+  </body>
 </html>

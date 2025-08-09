@@ -1,63 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_','-',app()->getLocale()) }}" data-theme="light">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>@yield('title', 'Dashboard')</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@yield('title', config('app.name'))</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <!-- Plugins CSS -->
-  <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
-  <link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
-  <link href="{{ asset('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
-  <link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
-
-  <!-- Bootstrap & App CSS -->
-  <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
+  {{-- Theme CSS (kept exactly like your HTML) --}}
+  <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}" sizes="16x16"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/bootstrap.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/apexcharts.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/dataTables.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/editor-katex.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/editor.atom-one-dark.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/editor.quill.snow.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/flatpickr.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/full-calendar.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/jquery-jvectormap-2.0.5.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/magnific-popup.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/slick.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/prism.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/file-upload.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/lib/audioplayer.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"/>
 
   @stack('styles')
 </head>
+<body>
+  {{-- Sidebar --}}
+  @include('layouts.sidebar')
 
-<body class="bg-theme bg-theme2">
-  <div class="wrapper">
-    @include('layouts.sidebar')
-    @include('layouts.header')
+  <main class="dashboard-main">
+    {{-- Topbar/Header --}}
+    @include('layouts.topbar')
 
-    <div class="page-wrapper">
-      @if ($errors->any())
-        <div class="alert alert-danger my-3">
-          <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
+    <div class="dashboard-main-body">
+      {{-- Optional breadcrumb/header area (override in child views) --}}
+      @hasSection('page-header')
+        @yield('page-header')
+      @else
+        {{-- default blank --}}
       @endif
 
+      {{-- Main page content from child views --}}
       @yield('content')
     </div>
 
-    <footer class="page-footer">
-      <p class="mb-0">Copyright © 2021. All right reserved.</p>
-    </footer>
-  </div>
+    {{-- Footer --}}
+    @include('layouts.footer')
+  </main>
 
-  {{-- Core Scripts (load jQuery first!) --}}
-  <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
-  <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
-  <script src="{{ asset('assets/js/index.js') }}"></script>
+  {{-- Theme JS (kept exactly like your HTML) --}}
+  <script src="{{ asset('assets/js/lib/jquery-3.7.1.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/iconify-icon.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/jquery-ui.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/jquery-jvectormap-2.0.5.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/jquery-jvectormap-world-mill-en.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/magnifc-popup.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/slick.min.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/prism.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/file-upload.js') }}"></script>
+  <script src="{{ asset('assets/js/lib/audioplayer.js') }}"></script>
   <script src="{{ asset('assets/js/app.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="{{ asset('assets/js/homeOneChart.js') }}"></script>
 
-  {{-- Render any page‐specific scripts pushed via @push('scripts') --}}
   @stack('scripts')
 </body>
 </html>

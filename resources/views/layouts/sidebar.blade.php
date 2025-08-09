@@ -1,158 +1,117 @@
-<div class="sidebar-wrapper" data-simplebar="true">
-  <div class="sidebar-header">
-    <div>
+<aside class="sidebar">
+  <button type="button" class="sidebar-close-btn">
+    <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
+  </button>
+
+  <div class="sidebar-header px-16 py-12 d-flex align-items-center gap-2">
+    <a href="{{ url('/') }}" class="sidebar-logo d-flex align-items-center gap-2">
       <img src="{{ asset('assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
-    </div>
-    <div>
-      <h4 class="logo-text">Dashtrans</h4>
-    </div>
-    <div class="toggle-icon ms-auto">
-      <i class='bx bx-arrow-back'></i>
-    </div>
+      <h4 class="logo-text mb-0">Dashtrans</h4>
+    </a>
+    <button class="ms-auto toggle-icon border-0 bg-transparent p-0">
+      <iconify-icon icon="bx:arrow-back"></iconify-icon>
+    </button>
   </div>
-  <!--navigation-->
-  <ul class="metismenu" id="menu">
-    <li>
-      <a href="{{ route('admin.dashboard') }}">
-        <div class="parent-icon">
-          <i class='bx bx-bar-chart-alt-2'></i>
-        </div>
-        <div class="menu-title">Dashboard</div>
-      </a>
-    </li>
 
-    <li class="menu-label">Users</li>
-    <li>
-      <a href="javascript:;" class="has-arrow">
-        <div class="parent-icon">
-          <i class='bx bx-user'></i>
-        </div>
-        <div class="menu-title">User Management</div>
-      </a>
-      <ul>
-        <li>
-          <a href="{{ route('admin.users.create') }}">
-            <i class='bx bx-user-plus'></i>
-            Add User
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('admin.users.index') }}">
-            <i class='bx bx-user'></i>
-            Users List
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('admin.roles.index') }}">
-            <i class='bx bx-shield-quarter'></i>
-            Roles &amp; Permissions
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('admin.permissions.index') }}">
-            <i class='bx bx-lock-open-alt'></i>
-            Permissions
-          </a>
-        </li>
-      </ul>
-    </li>
+  @php
+    $usersMenuOpen = request()->routeIs('admin.users.*') || request()->routeIs('admin.roles.*') || request()->routeIs('admin.permissions.*');
+    $buyersMenuOpen = request()->routeIs('admin.buyers.*');
+    $matchingMenuOpen = request()->routeIs('admin.matching.*');
+  @endphp
 
+  <div class="sidebar-menu-area">
+    <ul class="sidebar-menu" id="sidebar-menu">
+      {{-- Dashboard --}}
+      <li>
+        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+          <span class="menu-icon d-flex"><iconify-icon icon="bx:bar-chart-alt-2"></iconify-icon></span>
+          <span>Dashboard</span>
+        </a>
+      </li>
 
+      {{-- Users (label) --}}
+      <li class="sidebar-menu-group-title">Users</li>
 
-    
-    <li class="menu-label">Users</li>
-    <li>
-      <a href="javascript:;" class="has-arrow">
-        <div class="parent-icon">
-          <i class='bx bx-user'></i>
-        </div>
-        <div class="menu-title">Buyer Management</div>
-      </a>
-      <ul>
-  
-        <li>
-          <a href="{{ route('admin.buyers.create') }}">
-            <i class='bx bx-lock-open-alt'></i>
-            Create Buyer
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('admin.buyers.index') }}">
-            <i class='bx bx-lock-open-alt'></i>
-             Buyer List
-          </a>
-        </li>
-      </ul>
-    </li>
+      {{-- User Management --}}
+      <li class="dropdown {{ $usersMenuOpen ? 'open' : '' }}">
+        <a href="javascript:void(0)">
+          <span class="menu-icon d-flex"><iconify-icon icon="bx:user"></iconify-icon></span>
+          <span>User Management</span>
+        </a>
+        <ul class="sidebar-submenu" style="{{ $usersMenuOpen ? 'display:block' : '' }}">
+          <li>
+            <a href="{{ route('admin.users.create') }}" class="{{ request()->routeIs('admin.users.create') ? 'active' : '' }}">
+              <iconify-icon icon="bx:user-plus" class="w-auto me-2"></iconify-icon> Add User
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+              <iconify-icon icon="bx:user" class="w-auto me-2"></iconify-icon> Users List
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.roles.index') }}" class="{{ request()->routeIs('admin.roles.index') ? 'active' : '' }}">
+              <iconify-icon icon="bx:shield-quarter" class="w-auto me-2"></iconify-icon> Roles &amp; Permissions
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.permissions.index') }}" class="{{ request()->routeIs('admin.permissions.index') ? 'active' : '' }}">
+              <iconify-icon icon="bx:lock-open-alt" class="w-auto me-2"></iconify-icon> Permissions
+            </a>
+          </li>
+        </ul>
+      </li>
 
+      {{-- Users (label) - as in old menu (kept) --}}
+      <li class="sidebar-menu-group-title">Users</li>
 
- 
-    <li class="menu-label">Matching</li>
-    <li>
-      <a href="javascript:;" class="has-arrow">
-        <div class="parent-icon">
-          <i class='bx bx-user'></i>
-        </div>
-        <div class="menu-title">Matching Management</div>
-      </a>
-      <ul>
-  
-        <li>
-          <a href="{{ route('admin.matching.pending') }}">
-            <i class='bx bx-lock-open-alt'></i>
-           Pending Matching
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('admin.buyers.index') }}">
-            <i class='bx bx-lock-open-alt'></i>
-            Accepted Matching
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('admin.buyers.index') }}">
-            <i class='bx bx-lock-open-alt'></i>
-            Rejected Matching
-          </a>
-        </li>
-      </ul>
-    </li>
+      {{-- Buyer Management --}}
+      <li class="dropdown {{ $buyersMenuOpen ? 'open' : '' }}">
+        <a href="javascript:void(0)">
+          <span class="menu-icon d-flex"><iconify-icon icon="bx:user"></iconify-icon></span>
+          <span>Buyer Management</span>
+        </a>
+        <ul class="sidebar-submenu" style="{{ $buyersMenuOpen ? 'display:block' : '' }}">
+          <li>
+            <a href="{{ route('admin.buyers.create') }}" class="{{ request()->routeIs('admin.buyers.create') ? 'active' : '' }}">
+              <iconify-icon icon="bx:lock-open-alt" class="w-auto me-2"></iconify-icon> Create Buyer
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.buyers.index') }}" class="{{ request()->routeIs('admin.buyers.index') ? 'active' : '' }}">
+              <iconify-icon icon="bx:lock-open-alt" class="w-auto me-2"></iconify-icon> Buyer List
+            </a>
+          </li>
+        </ul>
+      </li>
 
+      {{-- Matching (label) --}}
+      <li class="sidebar-menu-group-title">Matching</li>
 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  </ul>
-</div>
+      {{-- Matching Management --}}
+      <li class="dropdown {{ $matchingMenuOpen ? 'open' : '' }}">
+        <a href="javascript:void(0)">
+          <span class="menu-icon d-flex"><iconify-icon icon="bx:user"></iconify-icon></span>
+          <span>Matching Management</span>
+        </a>
+        <ul class="sidebar-submenu" style="{{ $matchingMenuOpen ? 'display:block' : '' }}">
+          <li>
+            <a href="{{ route('admin.matching.pending') }}" class="{{ request()->routeIs('admin.matching.pending') ? 'active' : '' }}">
+              <iconify-icon icon="bx:lock-open-alt" class="w-auto me-2"></iconify-icon> Pending Matching
+            </a>
+          </li>
+          {{-- <li>
+            <a href="{{ route('admin.buyers.index') }}" class="{{ request()->fullUrlIs('*accepted*') ? 'active' : '' }}">
+              <iconify-icon icon="bx:lock-open-alt" class="w-auto me-2"></iconify-icon> Accepted Matching
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('admin.buyers.index') }}" class="{{ request()->fullUrlIs('*rejected*') ? 'active' : '' }}">
+              <iconify-icon icon="bx:lock-open-alt" class="w-auto me-2"></iconify-icon> Rejected Matching
+            </a>
+          </li> --}}
+        </ul>
+      </li>
+    </ul>
+  </div>
+</aside>
