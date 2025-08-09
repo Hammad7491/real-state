@@ -13,14 +13,14 @@ class CreateSellersTable extends Migration
 
             // Seller Info
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();           // ⬅️ made nullable
             $table->string('phone')->nullable();
 
             // Property Info
-            $table->string('property_address');
+            $table->string('property_address')->nullable(); // ⬅️ made nullable
             $table->string('property_city');
-            $table->string('property_state');
-            $table->string('property_zip');
+            $table->string('property_state')->nullable();   // ⬅️ made nullable
+            $table->string('property_zip')->nullable();     // ⬅️ made nullable
 
             // Deal Type
             $table->enum('deal_type', ['Cash','Subject-To','Seller-Finance','Hybrid'])
@@ -51,12 +51,16 @@ class CreateSellersTable extends Migration
             $table->unsignedInteger('term_length')->nullable();
             $table->boolean('balloon')->default(false);
 
-            // **Use smallInteger here so 0–10 will always fit—and if you ever need more, you can bump it up further.**
+            // 0–10 fits; bump later if needed
             $table->unsignedSmallInteger('balloon_years')->nullable();
 
             // Extra notes
             $table->text('additional_details')->nullable();
+
             $table->timestamps();
+
+            // (Optional) Helpful indexes
+            $table->index(['property_city', 'deal_type']);
         });
     }
 

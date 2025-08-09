@@ -133,3 +133,16 @@ Route::resource('sellers', SellerController::class);
 
 
      });
+Route::post('/sellers', [SellerController::class, 'store'])
+    ->name('sellers.store');
+
+// ADMIN: seller management
+Route::middleware('auth')->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('sellers', SellerController::class)
+            ->except('store') // store is public
+            ->middleware('can:view sellers');
+
+        // ...rest of admin routes...
+    });
+});
